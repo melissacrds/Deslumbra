@@ -1,0 +1,163 @@
+﻿@model Deslumbra.Models.Producto
+
+@{
+    ViewData["Title"] = "Editar producto";
+}
+
+<div class="container py-5" style="max-width:700px;">
+
+    <h2 class="text-center mb-4">
+        Editar producto
+    </h2>
+
+    <form asp-controller="Productos"
+          asp-action="Editar"
+          method="post"
+          enctype="multipart/form-data">
+
+        <input type="hidden" asp-for="IdProducto" />
+
+        <div asp-validation-summary="All"
+             class="text-danger mb-3"></div>
+
+        @if (!string.IsNullOrEmpty(Model.Imagen))
+        {
+            <div class="text-center mb-4">
+
+                <p class="fw-semibold">
+                    Fotografía actual
+                </p>
+
+                <img src="@Model.Imagen"
+                     alt="@Model.Nombre"
+                     class="img-thumbnail"
+                     style="max-height:220px;" />
+
+            </div>
+        }
+
+        <div class="mb-3">
+            <label for="archivoImagen" class="form-label">
+                Cambiar fotografía
+            </label>
+
+            <input type="file"
+                   id="archivoImagen"
+                   name="archivoImagen"
+                   class="form-control"
+                   accept=".jpg,.jpeg,.png,.webp" />
+
+            <small class="text-muted">
+                Si no seleccionas una nueva fotografía,
+                se conservará la actual.
+            </small>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label">
+                Nombre
+            </label>
+
+            <input asp-for="Nombre"
+                   class="form-control" />
+
+            <span asp-validation-for="Nombre"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Descripcion" class="form-label">
+                Descripción
+            </label>
+
+            <textarea asp-for="Descripcion"
+                      class="form-control"
+                      rows="3"></textarea>
+
+            <span asp-validation-for="Descripcion"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Categoria" class="form-label">
+                Categoría
+            </label>
+
+            <select asp-for="Categoria"
+                    class="form-select">
+
+                <option value="Mujeres">Mujeres</option>
+                <option value="Hombres">Hombres</option>
+                <option value="Niños">Niños</option>
+
+            </select>
+
+            <span asp-validation-for="Categoria"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Precio" class="form-label">
+                Precio
+            </label>
+
+            <input asp-for="Precio"
+                   type="number"
+                   step="0.01"
+                   min="0.01"
+                   class="form-control" />
+
+            <span asp-validation-for="Precio"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Tallas" class="form-label">
+                Tallas disponibles
+            </label>
+
+            <input asp-for="Tallas"
+                   class="form-control"
+                   placeholder="Ejemplo: S, M, L, XL" />
+
+            <small class="text-muted">
+                Escribe las tallas separadas por comas.
+                Para niños puedes utilizar tallas numéricas.
+            </small>
+
+            <span asp-validation-for="Tallas"
+                  class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Cantidad" class="form-label">
+                Cantidad disponible
+            </label>
+
+            <input asp-for="Cantidad"
+                   type="number"
+                   min="0"
+                   class="form-control" />
+
+            <span asp-validation-for="Cantidad"
+                  class="text-danger"></span>
+        </div>
+
+        <button type="submit"
+                class="btn btn-dark w-100">
+            Guardar cambios
+        </button>
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           class="btn btn-outline-secondary w-100 mt-2">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

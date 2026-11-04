@@ -1,0 +1,158 @@
+﻿@{
+    ViewData["Title"] = "Inicio";
+}
+
+<!-- Presentación principal -->
+<section class="text-center py-5"
+         style="background-color:#f5eee7;">
+
+    <div class="container py-5">
+
+        <h1 class="display-3 fw-bold mb-3">
+            DESLUMBRA
+        </h1>
+
+        <p class="fs-4 mb-3">
+            Tu estilo, tu esencia
+        </p>
+
+        <p class="text-muted mb-4">
+            Descubre prendas que resaltan tu personalidad.
+            Moda para cada ocasión.
+        </p>
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           class="btn btn-dark btn-lg px-5">
+            Explorar catálogo
+        </a>
+
+    </div>
+
+</section>
+
+<!-- Colecciones -->
+<section class="container py-5">
+
+    <h2 class="text-center mb-3">
+        Nuestras colecciones
+    </h2>
+
+    <p class="text-center text-muted mb-5">
+        Encuentra lo que buscas en Deslumbra.
+    </p>
+
+    <div class="row g-4">
+
+        <!-- Mujeres -->
+        <div class="col-md-4">
+
+            <div class="card h-100 shadow-sm text-center">
+
+                <div class="card-body py-5">
+
+                    <h3 class="card-title mb-3">
+                        Mujeres
+                    </h3>
+
+                    <p class="text-muted">
+                        Prendas modernas, cómodas y elegantes.
+                    </p>
+
+                    <a asp-controller="Productos"
+                       asp-action="Index"
+                       asp-route-categoria="Mujeres"
+                       class="btn btn-outline-dark mt-3">
+                        Ver colección
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Hombres -->
+        <div class="col-md-4">
+
+            <div class="card h-100 shadow-sm text-center">
+
+                <div class="card-body py-5">
+
+                    <h3 class="card-title mb-3">
+                        Hombres
+                    </h3>
+
+                    <p class="text-muted">
+                        Estilo y comodidad para todos los días.
+                    </p>
+
+                    <a asp-controller="Productos"
+                       asp-action="Index"
+                       asp-route-categoria="Hombres"
+                       class="btn btn-outline-dark mt-3">
+                        Ver colección
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Niños -->
+        <div class="col-md-4">
+
+            <div class="card h-100 shadow-sm text-center">
+
+                <div class="card-body py-5">
+
+                    <h3 class="card-title mb-3">
+                        Niños
+                    </h3>
+
+                    <p class="text-muted">
+                        Moda divertida y cómoda para los pequeños.
+                    </p>
+
+                    <a asp-controller="Productos"
+                       asp-action="Index"
+                       asp-route-categoria="Niños"
+                       class="btn btn-outline-dark mt-3">
+                        Ver colección
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Mensaje final -->
+<section class="text-center py-5"
+         style="background-color:#f5eee7;">
+
+    <div class="container">
+
+        <h2 class="mb-3">
+            Viste con confianza
+        </h2>
+
+        <p class="text-muted mb-4">
+            En Deslumbra creemos que cada persona
+            tiene un estilo único.
+        </p>
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           class="btn btn-dark px-4">
+            Descubrir productos
+        </a>
+
+    </div>
+
+</section>

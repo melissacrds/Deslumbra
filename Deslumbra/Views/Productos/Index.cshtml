@@ -1,0 +1,280 @@
+﻿@model IEnumerable<Deslumbra.Models.Producto>
+
+@{
+    ViewData["Title"] = "Catálogo";
+
+    string buscar = ViewBag.Buscar ?? "";
+    string categoria = ViewBag.Categoria ?? "";
+}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold">Nuestro catálogo</h1>
+        <p class="text-muted">
+            Encuentra las prendas que mejor representan tu estilo.
+        </p>
+    </div>
+
+    @if (TempData["Mensaje"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["Mensaje"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    @if (User.IsInRole("Administrador"))
+    {
+        <div class="mb-4">
+            <a asp-controller="Productos"
+               asp-action="Crear"
+               class="btn btn-dark">
+                + Agregar producto
+            </a>
+        </div>
+    }
+
+    <!-- Búsqueda y filtros -->
+    <form asp-controller="Productos"
+          asp-action="Index"
+          method="get"
+          class="row g-3 mb-5">
+
+        <div class="col-md-6">
+            <input type="text"
+                   name="buscar"
+                   value="@buscar"
+                   class="form-control"
+                   placeholder="Buscar una prenda..." />
+        </div>
+
+        <div class="col-md-4">
+            <select name="categoria" class="form-select">
+
+                <option value="">Todas las categorías</option>
+
+                <option value="Mujeres"
+                        selected="@(categoria == "Mujeres")">
+                    Mujeres
+                </option>
+
+                <option value="Hombres"
+                        selected="@(categoria == "Hombres")">
+                    Hombres
+                </option>
+
+                <option value="Niños"
+                        selected="@(categoria == "Niños")">
+                    Niños
+                </option>
+
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit"
+                    class="btn btn-dark w-100">
+                Buscar
+            </button>
+        </div>
+
+    </form>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+
+            <h4>No se encontraron productos.</h4>
+
+            <p class="text-muted">
+                Intenta con otra búsqueda o categoría.
+            </p>
+
+            <a asp-action="Index"
+               class="btn btn-outline-dark">
+                Ver todo el catálogo
+            </a>
+
+        </div>
+    }
+    else
+    {
+        <p class="text-muted mb-4">
+            Productos encontrados: @Model.Count()
+        </p>
+
+        <div class="row g-4">
+
+            @foreach (var producto in Model)
+            {
+                var tallas = (producto.Tallas ?? "")
+                    .Split(',',
+                        StringSplitOptions.RemoveEmptyEntries |
+                        StringSplitOptions.TrimEntries);
+
+                <div class="col-md-6 col-lg-4">
+
+                    <div class="card h-100 shadow-sm">
+
+                        @if (!string.IsNullOrEmpty(producto.Imagen))
+                        {
+                            <img src="@producto.Imagen"
+                                 alt="@producto.Nombre"
+                                 class="card-img-top"
+                                 style="height:300px;object-fit:cover;" />
+                        }
+
+                        <div class="card-body d-flex flex-column">
+
+                            <h5 class="card-title fw-bold">
+                                @producto.Nombre
+                            </h5>
+
+                            <p class="text-muted small">
+                                @producto.Categoria
+                            </p>
+
+                            <p class="card-text">
+                                @producto.Descripcion
+                            </p>
+
+                            <h5 class="fw-bold mt-auto">
+                                ₡@producto.Precio.ToString("N2")
+                            </h5>
+
+                            @if (producto.Cantidad > 0)
+                            {
+                                <p class="text-muted small">
+                                    Disponibles: @producto.Cantidad
+                                </p>
+
+                                <!-- Agregar al carrito -->
+                                <form asp-controller="Carrito"
+                                      asp-action="Agregar"
+                                      method="post">
+
+                                    <input type="hidden"
+                                           name="idProducto"
+                                           value="@producto.IdProducto" />
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Talla
+                                        </label>
+
+                                        @if (tallas.Length > 0)
+                                        {
+                                            <select name="talla"
+                                                    class="form-select"
+                                                    required>
+
+                                                <option value="">
+                                                    Selecciona una talla
+                                                </option>
+
+                                                @foreach (var talla in tallas)
+                                                {
+                                                    <option value="@talla">
+                                                        @talla
+                                                    </option>
+                                                }
+
+                                            </select>
+                                        }
+                                        else
+                                        {
+                                            <input type="text"
+                                                   class="form-control"
+                                                   value="Única"
+                                                   disabled />
+
+                                            <input type="hidden"
+                                                   name="talla"
+                                                   value="Única" />
+                                        }
+
+                                    </div>
+
+                                    <div class="mb-3">
+
+                                        <label class="form-label">
+                                            Cantidad
+                                        </label>
+
+                                        <input type="number"
+                                               name="cantidad"
+                                               value="1"
+                                               min="1"
+                                               max="@producto.Cantidad"
+                                               class="form-control"
+                                               required />
+
+                                    </div>
+
+                                    <button type="submit"
+                                            class="btn btn-dark w-100">
+                                        Agregar al carrito
+                                    </button>
+
+                                </form>
+                            }
+                            else
+                            {
+                                <p class="text-danger fw-bold mt-3">
+                                    Producto agotado
+                                </p>
+
+                                <button class="btn btn-secondary w-100"
+                                        disabled>
+                                    No disponible
+                                </button>
+                            }
+
+                            <!-- Opciones del administrador -->
+                            @if (User.IsInRole("Administrador"))
+                            {
+                                <hr />
+
+                                <a asp-controller="Productos"
+                                   asp-action="Editar"
+                                   asp-route-id="@producto.IdProducto"
+                                   class="btn btn-outline-primary mb-2">
+                                    Editar producto
+                                </a>
+
+                                <form asp-controller="Productos"
+                                      asp-action="Eliminar"
+                                      method="post"
+                                      onsubmit="return confirm('¿Deseas eliminar este producto?');">
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@producto.IdProducto" />
+
+                                    <button type="submit"
+                                            class="btn btn-outline-danger w-100">
+                                        Eliminar producto
+                                    </button>
+
+                                </form>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

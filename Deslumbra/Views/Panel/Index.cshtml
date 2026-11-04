@@ -1,0 +1,143 @@
+﻿@model Deslumbra.Models.ResumenInventario
+
+@{
+    ViewData["Title"] = "Panel de administración";
+}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">
+            Panel de administración
+        </h1>
+
+        <p class="text-muted">
+            Resumen general del inventario de Deslumbra.
+        </p>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Productos registrados -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <h5 class="text-muted">
+                        Productos registrados
+                    </h5>
+
+                    <h2 class="fw-bold mt-3">
+                        @Model.TotalProductos
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Prendas diferentes en el catálogo
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Unidades disponibles -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <h5 class="text-muted">
+                        Unidades disponibles
+                    </h5>
+
+                    <h2 class="fw-bold mt-3">
+                        @Model.TotalUnidades
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Existencias totales de la tienda
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Valor del inventario -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <h5 class="text-muted">
+                        Valor del inventario
+                    </h5>
+
+                    <h2 class="fw-bold mt-3">
+                        ₡@Model.ValorInventario.ToString("N2")
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Valor calculado a precios de venta
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Productos agotados -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center p-4">
+
+                    <h5 class="text-muted">
+                        Productos agotados
+                    </h5>
+
+                    <h2 class="fw-bold mt-3">
+                        @Model.ProductosAgotados
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Productos sin unidades disponibles
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Acciones del administrador -->
+    <div class="text-center mt-5">
+
+        <a asp-controller="Productos"
+           asp-action="Index"
+           class="btn btn-dark px-4 me-2 mb-2">
+            Administrar productos
+        </a>
+
+        <a asp-controller="Productos"
+           asp-action="Crear"
+           class="btn btn-outline-dark px-4 mb-2">
+            Agregar producto
+        </a>
+
+    </div>
+
+</div>
+
